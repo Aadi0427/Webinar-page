@@ -20,24 +20,17 @@ document.getElementById("confirmBtn").addEventListener("click", function() {
     }
 });
 
-// Google Apps Script Web App URL for storing form data
-const scriptURL = "https://script.google.com/macros/s/AKfycbzKYVoH9g80e9nTZv8gxwJhVZ3d63JsYDRmYV-D5fiInJbXxiQcKJKsAsmFt0rWTIgy/exec";
-
-// Show thank you message and hide form on submit
+// Show thank you message and hide form on submit (for Formspree)
 const userDetailsForm = document.getElementById("userDetailsForm");
 const thankYouMsg = document.getElementById("thankYouMsg");
 if(userDetailsForm) {
   userDetailsForm.addEventListener("submit", function(e) {
     e.preventDefault();
-    const data = {
-      name: document.getElementById("name").value,
-      age: document.getElementById("age").value,
-      mobile: document.getElementById("mobile").value
-    };
-    fetch(scriptURL, {
+    const formData = new FormData(userDetailsForm);
+    fetch(userDetailsForm.action, {
       method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" }
+      body: formData,
+      headers: { 'Accept': 'application/json' }
     }).then(res => {
       userDetailsForm.style.display = "none";
       thankYouMsg.style.display = "block";
